@@ -3,6 +3,7 @@ defmodule Mychat.UserSocket do
 
   ## Channels
   channel "rooms:*", Mychat.RoomChannel
+  channel "game:lobby", Mychat.LobbyChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket,
@@ -21,6 +22,8 @@ defmodule Mychat.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket) do
+    user_token = :random.uniform(1000)
+    socket = assign(socket, :current_user, user_token)
     {:ok, socket}
   end
 

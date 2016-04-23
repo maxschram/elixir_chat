@@ -4,12 +4,13 @@ class Chat {
     var messages = document.querySelector("#messages")
     var input = document.querySelector("#message-input")
     var username = document.querySelector("#username")
+    var usersList = document.querySelector("#users-list");
 
     socket.onOpen( ev => console.log("OPEN", ev))
     socket.onError( ev => console.log("OPEN", ev))
     socket.onClose( e => console.log("CLOSE", e))
 
-    var chan = socket.channel("rooms:lobby", {})
+    var chan = socket.channel("rooms:lobby")
     chan.join()
         .receive("ignore", () => console.log("auth error"))
         .receive("ok", () => console.log("join ok"))
@@ -34,7 +35,18 @@ class Chat {
       var message = document.createTextNode(`[${username} entered]`)
       messages.appendChild(document.createElement("br"))
       messages.appendChild(message)
-     })
+    })
+
+    chan.on("lobby_update", msg => {
+      let users = msg.users
+      usersList.innerHTML = ""
+      users.forEach( user => {
+        let newUserName = document.createTextNode(user)
+        let newUserEl = document.createElement("p")
+        newUserEl.appendChild(newUserName)
+        usersList.appendChild(newUserEl)
+      })
+    });
   }
 
   static messageTemplate(msg) {

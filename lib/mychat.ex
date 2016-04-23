@@ -13,6 +13,7 @@ defmodule Mychat do
       supervisor(Mychat.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(Mychat.Worker, [arg1, arg2, arg3]),
+      worker(Mychat.ChannelMonitor, [%{}]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
