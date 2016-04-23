@@ -1,22 +1,19 @@
 <div class="main">
   <div class="row">
-    <div id="messages" class="col-md-8 container">
+    <div id="messages-container" class="col-md-8">
+      <div id="messages" class="container"></div>
     </div>
-    <div id="users" class="col-md-4 container">
-      <h3>Online Users</h3>
-      <div id="users-list"></div>
+    <div id="users-container" class="col-md-4">
+      <div id="users" class="container">
+        <h3>Online Users</h3>
+        <div id="users-list"></div>
+      </div>
     </div>
   </div>
 </div>
 <div id="footer">
   <div class="container">
     <div class="row">
-      <div class="col-sm-2"> 
-        <div class="input-group">
-          <span class="input-group-addon">@</span>
-          <input id="username" type="text" class="form-control" placeholder="username">
-        </div>
-      </div> 
       <div class="col-sm-10">
         <input id="message-input" class="form-control" />
       </div>
