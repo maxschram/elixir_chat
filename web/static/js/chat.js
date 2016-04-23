@@ -4,7 +4,6 @@ class Chat {
     var status = document.querySelector("#status")
     var messages = document.querySelector("#messages")
     var input = document.querySelector("#message-input")
-    var username = document.querySelector("#username")
     var usersList = document.querySelector("#users-list");
 
     socket.onOpen( ev => console.log("OPEN", ev))
@@ -21,7 +20,7 @@ class Chat {
 
     input.addEventListener("keypress", e => {
       if (e.keyCode == 13) {
-        chan.push("new:msg", {user: username.value, body: input.value}, 1000)
+        chan.push("new:msg", {user: token, body: input.value}, 1000)
         input.value = ""
       }
     })
@@ -32,14 +31,15 @@ class Chat {
     })
 
     chan.on("user:entered", msg => {
-      var username = msg.user || "anonymous"
+      var username = msg.user
       var message = document.createTextNode(`[${username} entered]`)
       messages.appendChild(document.createElement("br"))
       messages.appendChild(message)
     })
 
     chan.on("game_invite", msg => {
-      console.log(msg)
+      let sender = msg.username
+      alert(`Invitation from ${sender}`)
     })
 
     chan.on("lobby_update", msg => {
@@ -58,7 +58,7 @@ class Chat {
   }
 
   static messageTemplate(msg) {
-    let username = msg.user || "anonymous"
+    let username = msg.user
     let body = msg.body
     let message = document.createElement("p")
     let usernameNode = document.createElement("a")
