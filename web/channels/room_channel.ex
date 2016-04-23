@@ -33,6 +33,21 @@ defmodule Mychat.RoomChannel do
     {:reply, {:ok, %{msg: msg["body"]}}, assign(socket, :user, msg["user"])}
   end
 
+  def handle_in("game_invite", %{"user" => user }, socket) do
+    data = %{"user" => user, "sender" => socket.assigns.current_user }
+    broadcast! socket, "game_invite", data
+    {:noreply, socket}
+  end
+
+  intercept ["game_invite"]
+  def handle_out("game_invite", %{"user" => user, "sender" => sender}, socket)
+  do
+    if socket.assigns.current_user == user do
+      push socket, "game_invite", %{ username: sender }
+    end
+    {:noreply, socket}
+  end
+
   defp lobby_update(socket, users) do
     broadcast! socket, "lobby_update", %{ users: users}
   end

@@ -21,11 +21,8 @@ defmodule Mychat.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    :random.seed(:erlang.now())
-    user_token = :random.uniform(1000)
-    IO.puts user_token
-    socket = assign(socket, :current_user, user_token)
+  def connect(%{"token" => token}, socket) do
+    socket = assign(socket, :current_user, token)
     {:ok, socket}
   end
 

@@ -1,5 +1,6 @@
 class Chat {
   static init(socket) {
+    var token = document.querySelector("meta[name=channel_token").getAttribute("content")
     var status = document.querySelector("#status")
     var messages = document.querySelector("#messages")
     var input = document.querySelector("#message-input")
@@ -37,6 +38,10 @@ class Chat {
       messages.appendChild(message)
     })
 
+    chan.on("game_invite", msg => {
+      console.log(msg)
+    })
+
     chan.on("lobby_update", msg => {
       let users = msg.users
       usersList.innerHTML = ""
@@ -45,6 +50,9 @@ class Chat {
         let newUserEl = document.createElement("p")
         newUserEl.appendChild(newUserName)
         usersList.appendChild(newUserEl)
+        newUserEl.addEventListener("click", () => {
+          chan.push("game_invite", { user: user, sender: token })
+        })
       })
     });
   }

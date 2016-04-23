@@ -7,6 +7,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <% :random.seed(:os.timestamp) %>
+    <%= tag :meta, name: "channel_token", content: :random.uniform(1000) %>
+
     <title>Hello Mychat!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
